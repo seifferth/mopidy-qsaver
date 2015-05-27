@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from mopidy_qsaver import Extension, frontend as frontend_lib
+from mopidy_qsaver import Extension
 
 
 def test_get_default_config():
@@ -12,14 +12,14 @@ def test_get_default_config():
     assert 'enabled = true' in config
 
 
-def test_get_config_schema():
-    ext = Extension()
+# def test_get_config_schema():
+    # ext = Extension()
 
-    schema = ext.get_config_schema()
+    # schema = ext.get_config_schema()
 
     # TODO Test the content of your config schema
-    #assert 'username' in schema
-    #assert 'password' in schema
+    # assert 'username' in schema
+    # assert 'password' in schema
 
 
 # TODO Write more tests

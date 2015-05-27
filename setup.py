@@ -18,7 +18,7 @@ setup(
     license='Apache License, Version 2.0',
     author='Vishal Bardoloi',
     author_email='v.bardoloi@gmail.com',
-    description='Mopidy extension to persist your current queue when the server restarts',
+    description='Mopidy extension to persist queue across server restarts',
     long_description=open('README.rst').read(),
     packages=find_packages(exclude=['tests', 'tests.*']),
     zip_safe=False,
