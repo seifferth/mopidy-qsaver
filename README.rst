@@ -12,7 +12,7 @@ Mopidy-Qsaver
 
 .. image:: https://img.shields.io/travis/bardoloi/mopidy-qsaver/master.svg?style=flat
     :target: https://travis-ci.org/bardoloi/mopidy-qsaver
-    :alt: Travis CI build status
+    :alt: Travis-CI build status
 
 .. image:: https://img.shields.io/coveralls/bardoloi/mopidy-qsaver/master.svg?style=flat
    :target: https://coveralls.io/r/bardoloi/mopidy-qsaver?branch=master
