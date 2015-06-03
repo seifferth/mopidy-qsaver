@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 import logging
 
+import json
+
 from mopidy.core import CoreListener
 
 import pykka
@@ -19,8 +21,9 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
     def saveQueue(self):
         logger.info("Qsaver is saving the tracklist")
         with open(self.backup_file, 'w') as f:
-            tracklist = self.core.tracklist.get_tracks()
-            logger.info(tracklist)
+            tracklistFuture = self.core.tracklist.get_tracks() # uses pykka.ThreadingActor
+            tracklist = str(tracklistFuture.get()) # get the future (promise) value
+            # logger.info(tracklist)
             f.write(tracklist)
         f.closed
 
