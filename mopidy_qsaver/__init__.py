@@ -4,9 +4,9 @@ import logging
 
 import os
 
-import gobject
+# import gobject
 
-import gst
+# import gst
 
 # import pygst
 
@@ -38,24 +38,6 @@ class Extension(ext.Extension):
         return schema
 
     def setup(self, registry):
-        # You will typically only implement one of the following things
-        # in a single extension.
 
-        # TODO: Edit or remove entirely
-        from .frontend import FoobarFrontend
-        registry.add('frontend', FoobarFrontend)
-
-        # TODO: Edit or remove entirely
-        from .backend import FoobarBackend
-        registry.add('backend', FoobarBackend)
-
-        # TODO: Edit or remove entirely
-        from .mixer import FoobarMixer
-        gobject.type_register(FoobarMixer)
-        gst.element_register(FoobarMixer, 'foobarmixer', gst.RANK_MARGINAL)
-
-        # TODO: Edit or remove entirely
-        registry.add('http:static', {
-            'name': self.ext_name,
-            'path': os.path.join(os.path.dirname(__file__), 'static'),
-        })
+        from .frontend import QSaverFrontend
+        registry.add('frontend', QSaverFrontend)
