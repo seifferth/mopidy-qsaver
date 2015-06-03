@@ -14,10 +14,15 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
         super(QSaverFrontend, self).__init__()
         self.config = config
         self.core = core
+        self.backup_file = self.config.get('qsaver')['backup_file']
 
     def saveQueue(self):
-        # TODO: save the queue to a local file
         logger.info("Qsaver is saving the tracklist")
+        with open(self.backup_file, 'w') as f:
+            tracklist = self.core.tracklist.get_tracks()
+            logger.info(tracklist)
+            f.write(tracklist)
+        f.closed
 
     def restoreQueue(self):
         # TODO: restore the queue from a local file

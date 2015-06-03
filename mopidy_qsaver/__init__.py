@@ -32,7 +32,7 @@ class Extension(ext.Extension):
 
     def get_config_schema(self):
         schema = super(Extension, self).get_config_schema()
-        schema['tracklist_backup_location'] = config.String()
+        schema['backup_file'] = config.String()
         return schema
 
     def setup(self, registry):
