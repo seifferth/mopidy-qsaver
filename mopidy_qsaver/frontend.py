@@ -23,7 +23,6 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
         with open(self.backup_file, 'w') as f:
             tracklist = self.core.tracklist.get_tracks().get()
             uri_list = [t.uri for t in tracklist]
-            logger.info(uri_list)
             f.write(str(uri_list))
         f.closed
         logger.info("Qsaver has saved your tracklist!")
