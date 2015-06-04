@@ -36,7 +36,8 @@ Before starting Mopidy, you must add configuration for
 Mopidy-Qsaver to your Mopidy configuration file::
 
     [qsaver]
-    # TODO: Add example of extension config
+    enabled = true
+    backup_file = ./tracklist_backup.json
 
 
 Project resources
