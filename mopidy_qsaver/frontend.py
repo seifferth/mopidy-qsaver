@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import logging
 
-import json
+import os.path
 
 from mopidy.core import CoreListener
 
@@ -19,17 +19,26 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
         self.backup_file = self.config.get('qsaver')['backup_file']
 
     def saveQueue(self):
-        logger.info("Qsaver is saving the tracklist")
+        logger.info("Qsaver is saving your tracklist")
         with open(self.backup_file, 'w') as f:
-            tracklistFuture = self.core.tracklist.get_tracks() # uses pykka.ThreadingActor
-            tracklist = str(tracklistFuture.get()) # get the future (promise) value
-            # logger.info(tracklist)
-            f.write(tracklist)
+            tracklist = self.core.tracklist.get_tracks().get()
+            uri_list = [t.uri for t in tracklist]
+            logger.info(uri_list)
+            f.write(str(uri_list))
         f.closed
+        logger.info("Qsaver has saved your tracklist!")
 
     def restoreQueue(self):
-        # TODO: restore the queue from a local file
         logger.info("Qsaver is restoring your tracklist")
+        if os.path.exists(self.backup_file):
+            with open(self.backup_file, 'r') as f:
+                uri_list_str = f.read()
+                uri_list = eval(uri_list_str)  # convert to array
+                self.core.tracklist.add(None, None, None, uri_list)
+            f.closed
+            logger.info("Qsaver has restored your tracklist!")
+        else:
+            logger.info("Qsaver unable to restore tracklist file")
 
     def on_start(self):
         self.restoreQueue()
@@ -37,5 +46,8 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
     def on_stop(self):
         self.saveQueue()
 
-    def track_playback_started(self, tl_track):
+    def tracklist_changed(self):
         self.saveQueue()
+
+    def getUri(track):
+        return track.uri
