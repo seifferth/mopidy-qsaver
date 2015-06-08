@@ -27,7 +27,7 @@ Installation
 
 Install by running::
 
-    pip install Mopidy-Qsaver
+    pip install Mopidy-Qsaver==0.1.0
 
 
 Configuration
