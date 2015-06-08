@@ -10,12 +10,12 @@ Mopidy-Qsaver
     :target: https://pypi.python.org/pypi/Mopidy-Qsaver/
     :alt: Number of PyPI downloads
 
-.. image:: https://img.shields.io/travis/bardoloi/mopidy-qsaver/master.svg?style=flat
-    :target: https://travis-ci.org/bardoloi/mopidy-qsaver
+.. image:: https://img.shields.io/travis/bardoloi/Mopidy-Headspring-Web/master.svg?style=flat
+    :target: https://travis-ci.org/bardoloi/Mopidy-Headspring-Web
     :alt: Travis-CI build status
 
-.. image:: https://img.shields.io/coveralls/bardoloi/mopidy-qsaver/master.svg?style=flat
-   :target: https://coveralls.io/r/bardoloi/mopidy-qsaver?branch=master
+.. image:: https://img.shields.io/coveralls/bardoloi/mopidy-headspring-web/master.svg?style=flat
+   :target: https://coveralls.io/r/bardoloi/mopidy-headspring-web?branch=master
    :alt: Test coverage
 
 Mopidy extension that maintains your current queue even when the server restarts (currently the queue dies if you restart the server)
