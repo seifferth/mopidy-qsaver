@@ -10,12 +10,12 @@ Mopidy-Qsaver
     :target: https://pypi.python.org/pypi/Mopidy-Qsaver/
     :alt: Number of PyPI downloads
 
-.. image:: https://img.shields.io/travis/bardoloi/mopidy-qsaver/master.svg?style=flat
-    :target: https://travis-ci.org/bardoloi/mopidy-qsaver
+.. image:: https://img.shields.io/travis/HeadspringLabs/mopidy-qsaver/master.svg?style=flat
+    :target: https://travis-ci.org/HeadspringLabs/mopidy-qsaver
     :alt: Travis-CI build status
 
-.. image:: https://img.shields.io/coveralls/bardoloi/mopidy-qsaver/master.svg?style=flat
-   :target: https://coveralls.io/r/bardoloi/mopidy-qsaver?branch=master
+.. image:: https://img.shields.io/coveralls/HeadspringLabs/mopidy-qsaver/master.svg?style=flat
+   :target: https://coveralls.io/r/HeadspringLabs/mopidy-qsaver?branch=master
    :alt: Test coverage
 
 
