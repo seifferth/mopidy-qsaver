@@ -25,9 +25,14 @@ Mopidy extension that maintains your current queue even when the server restarts
 Installation
 ============
 
-Install by running::
+For versions of Mopidy >= 1.0.5, install by running the following (or download-install the master branch)::
 
     pip install Mopidy-Qsaver==0.1.0
+    
+For Mopidy version 0.19.5, install by running (or download-install the v0.19.5 branch)::
+
+    pip install Mopidy-Qsaver==0.2.6
+
 
 
 Configuration
