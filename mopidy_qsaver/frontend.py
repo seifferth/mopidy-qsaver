@@ -33,7 +33,8 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
             with open(self.backup_file, 'r') as f:
                 uri_list_str = f.read()
                 uri_list = eval(uri_list_str)  # convert to array
-                self.core.tracklist.add(None, None, None, uri_list)
+                for item in uri_list:
+                    self.core.tracklist.add(None, None, item)
             f.closed
             logger.info("Qsaver has restored your tracklist!")
         else:
