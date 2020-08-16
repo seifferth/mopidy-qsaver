@@ -7,6 +7,7 @@ import os.path
 from mopidy.core import CoreListener
 
 import pykka
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -21,22 +22,45 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
     def saveQueue(self):
         logger.info("Qsaver is saving your tracklist")
         with open(self.backup_file, 'w') as f:
-            tracklist = self.core.tracklist.get_tracks().get()
-            uri_list = [t.uri for t in tracklist]
-            f.write(str(uri_list))
+            tracklist = self.core.tracklist
+            playing = self.core.playback.get_current_tl_track().get()
+            playing_id = playing.tlid if playing is not None else None
+            json.dump(
+                {
+                  "uris": [t.uri for t in tracklist.get_tracks().get()],
+                  "consume": tracklist.get_consume().get(),
+                  "random": tracklist.get_random().get(),
+                  "repeat": tracklist.get_repeat().get(),
+                  "single": tracklist.get_single().get(),
+                  "track": playing_id,
+                },
+                f,
+                indent=2,
+            )
         f.closed
         logger.info("Qsaver has saved your tracklist!")
 
     def restoreQueue(self):
         logger.info("Qsaver is restoring your tracklist")
-        if os.path.exists(self.backup_file):
+        try:
             with open(self.backup_file, 'r') as f:
-                uri_list_str = f.read()
-                uri_list = eval(uri_list_str)  # convert to array
-                self.core.tracklist.add(uris=uri_list)
+                old_state = json.load(f)
+                tracklist = self.core.tracklist
+                tracklist.add(uris=old_state.get("uris", list()))
+                tracklist.set_consume(old_state.get("consume", False))
+                tracklist.set_random(old_state.get("random", False))
+                tracklist.set_repeat(old_state.get("repeat", False))
+                tracklist.set_single(old_state.get("single", False))
+                track = old_state.get("track", None)
+                if track: self.core.playback.play(tlid=track)
             f.closed
             logger.info("Qsaver has restored your tracklist!")
-        else:
+        except json.decoder.JSONDecodeError as e:
+            logger.info(
+                "Qsaver was unable to load the saved state, sorry. " +
+                "Looks like it contains broken json."
+            )
+        except Exception:
             logger.info("Qsaver unable to restore tracklist file")
 
     def on_start(self):
