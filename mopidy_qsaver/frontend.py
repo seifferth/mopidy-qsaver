@@ -18,11 +18,13 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
         self.config = config
         self.core = core
         self.backup_file = self.config.get('qsaver')['backup_file']
+        self.is_playing = False
 
     def saveQueue(self):
         logger.info("Qsaver is saving your tracklist")
         with open(self.backup_file, 'w') as f:
             tracklist = self.core.tracklist
+            state_playing = self.is_playing
             playing = self.core.playback.get_current_tl_track().get()
             playing_id = playing.tlid if playing is not None else None
             json.dump(
@@ -33,6 +35,7 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
                   "repeat": tracklist.get_repeat().get(),
                   "single": tracklist.get_single().get(),
                   "track": playing_id,
+                  "playing": state_playing,
                 },
                 f,
                 indent=2,
@@ -52,7 +55,10 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
                 tracklist.set_repeat(old_state.get("repeat", False))
                 tracklist.set_single(old_state.get("single", False))
                 track = old_state.get("track", None)
-                if track: self.core.playback.play(tlid=track)
+                playing = old_state.get("playing", False)
+                if track and playing:
+                    # FIXME no way to just move to the track without playing it
+                    self.core.playback.play(tlid=track)
             f.closed
             logger.info("Qsaver has restored your tracklist!")
         except json.decoder.JSONDecodeError as e:
@@ -71,6 +77,15 @@ class QSaverFrontend(pykka.ThreadingActor, CoreListener):
 
     def tracklist_changed(self):
         self.saveQueue()
+
+    def track_playback_paused(self, tl_track, time_position):
+        self.is_playing = False
+
+    def track_playback_started(self, tl_track):
+        self.is_playing = True
+
+    def track_playback_resumed(self, tl_track, time_position):
+        self.is_playing = True
 
     def getUri(track):
         return track.uri
